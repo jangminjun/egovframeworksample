@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+    	<Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+        </Console>
+        <!-- Cassandra name="cassandra" clusterName="Test Cluster" keyspace="logdb" table="gii_event_log" bufferSize="10" batched="true" username="enislogger" password="enislogger" >
+        <SocketAddress host="192.168.33.10" port="9042"/>
+        <ColumnMapping name="id" pattern="%uuid{TIME}" type="java.util.UUID"/>
+        <ColumnMapping name="identifier" pattern="%marker"/>
+        <ColumnMapping name="message" pattern="%message"/>
+        <ColumnMapping name="priority" pattern="%level"/>
+        <ColumnMapping name="scope" pattern="%level"/>
+        <ColumnMapping name="time_stamp" literal="now()"/>
+        <ColumnMapping name="type" pattern="%level"/>
+        <ColumnMapping name="data" pattern="%X{logger.data}" />
+  	   </Cassandra-->
+    </Appenders>
+    <Loggers>
+        <Logger name="java.sql" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <!-- Logger name="java.sql" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger-->
+        <Logger name="egovframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="enis" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
+          <!-- log SQL with timing information, post execution -->
+        <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="console" />
+        </Root>
+
+    </Loggers>
+</Configuration>
