@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+umask 077
+
+currentDir=`pwd`
+
+# Verify that we're in the right directory to execute
+if [ ! -d ${currentDir}/selinux ]; then
+    echo "Please change directories into \$JWS_HOME/tomcat before running the postinstall script."
+    exit 1
+fi
+
+# Verify that the required selinux-policy-devel package is installed
+if [ ! -f /usr/share/selinux/devel/Makefile ]; then
+    echo "Please install the required selinux-policy-devel package to continue"
+    exit 1
+fi
+
+# Fix selinux file context locations
+sed -i -e "s:@@CWD@@:$currentDir:" selinux/jws5-tomcat*.fc
+
+pushd selinux > /dev/null
+    # Compile the policy, install it, and label the tomcat directory accordingly
+    make -f /usr/share/selinux/devel/Makefile
+    semodule -i jws5-tomcat.pp
+    restorecon -r ../
+popd > /dev/null
+
+# If we're on RHEL 6, we need to add port 8005 to allow access
+RHEL="$(cat /etc/redhat-release | egrep -o [0-9].[0-9]+ | cut -d. -f1)"
+if [[ ${RHEL} -eq 6 ]]; then
+    echo "Adding port 8005 to http_port_t..."
+    semanage port -a -t http_port_t -p tcp 8005
+fi

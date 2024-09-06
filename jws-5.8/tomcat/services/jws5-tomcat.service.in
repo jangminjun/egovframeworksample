@@ -1,0 +1,21 @@
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+EnvironmentFile=@@@TCHOME@@@/conf/jws5-tomcat.conf
+EnvironmentFile=-/etc/sysconfig/jws5-tomcat
+
+ExecStart=@@@TCHOME@@@/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+SuccessExitStatus=143
+TimeoutStopSec=30
+
+User=tomcat
+
+UMask=027
+
+[Install]
+WantedBy=multi-user.target

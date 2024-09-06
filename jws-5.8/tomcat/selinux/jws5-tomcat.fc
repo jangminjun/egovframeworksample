@@ -1,0 +1,5 @@
+@@CWD@@/bin(/.*\.sh)?			gen_context(system_u:object_r:jws5_tomcat_exec_t,s0)
+@@CWD@@/temp(/.*)?        		gen_context(system_u:object_r:jws5_tomcat_cache_t,s0)
+@@CWD@@/work(/.*)?        		gen_context(system_u:object_r:jws5_tomcat_cache_t,s0)
+@@CWD@@/webapps(/.*)?	        gen_context(system_u:object_r:jws5_tomcat_var_lib_t,s0)
+@@CWD@@/logs(/.*)?		        gen_context(system_u:object_r:jws5_tomcat_log_t,s0)
